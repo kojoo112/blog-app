@@ -11,17 +11,21 @@ const PostCard = ({
   const postImage = require(`../../public/images/posts/${path}.png`);
 
   return (
-    <Link
-      href={`/posts/${path}`}
-      className="shadow-md rounded overflow-hidden text-center"
-    >
-      <Image className="aspect-[4/3]" alt={title} src={postImage} />
-      <div className="p-2">
-        <p className="text-end">{date}</p>
-        <h3 className="font-bold">{title}</h3>
-        <p className="w-full truncate">{description}</p>
-        <span className="px-2 bg-sky-100">{category}</span>
-      </div>
+    <Link href={`/posts/${path}`}>
+      <article className="shadow-md hover:shadow-xl rounded-md overflow-hidden text-center">
+        <Image
+          className="aspect-[4/3]"
+          alt={title}
+          src={postImage}
+          priority={false}
+        />
+        <div className="p-2">
+          <p className="text-end text-gray-700">{date}</p>
+          <h3 className="font-bold">{title}</h3>
+          <p className="w-full truncate">{description}</p>
+          <span className="text-sm rounded-lg px-2 bg-sky-100">{category}</span>
+        </div>
+      </article>
     </Link>
   );
 };
