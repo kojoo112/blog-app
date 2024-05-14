@@ -1,10 +1,12 @@
 import React from "react";
-import { getNotFeaturedPostList } from "@/service/post";
+import { getPostList } from "@/service/post";
 import PostCard from "@/components/PostCard";
 import MultiCarousel from "@/components/MultiCarousel";
 
 const NonFeaturedPost = async () => {
-  const postList = await getNotFeaturedPostList();
+  const postList = await getPostList().then((postList) =>
+    postList.filter((post) => !post.featured)
+  );
 
   return (
     <section className="my-4">
