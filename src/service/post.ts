@@ -9,6 +9,8 @@ export type Post = {
   featured: boolean;
 };
 
+export type PostData = Post & { content: string };
+
 export const getPostList = async (): Promise<Post[]> => {
   return fs.promises
     .readFile(`${process.cwd()}/src/data/posts.json`, "utf-8")
@@ -16,28 +18,33 @@ export const getPostList = async (): Promise<Post[]> => {
 };
 
 export const getFeaturedPostList = async (): Promise<Post[]> => {
-  return fs.promises
-    .readFile(`${process.cwd()}/src/data/posts.json`, "utf-8")
-    .then<Post[]>(JSON.parse)
+  return getPostList()
     .then((postList) => postList.filter((post) => post.featured))
     .then((postList) => postList.sort((a, b) => b.date.localeCompare(a.date)));
 };
 
 export const getNotFeaturedPostList = async (): Promise<Post[]> => {
-  return fs.promises
-    .readFile(`${process.cwd()}/src/data/posts.json`, "utf-8")
-    .then<Post[]>(JSON.parse)
+  return getPostList()
     .then((postList) => postList.filter((post) => !post.featured))
     .then((postList) => postList.sort((a, b) => b.date.localeCompare(a.date)));
 };
 
-export const getCategoryList = async (): Promise<string[]> => {
-  return fs.promises
-    .readFile(`${process.cwd()}/src/data/posts.json`, "utf-8")
-    .then<Post[]>(JSON.parse)
-    .then((postList) => [...new Set(postList.map((post) => post.category))])
-    .then<string[]>((categoryList) => {
-      categoryList.unshift("All Posts");
-      return categoryList;
-    });
+export const getPostDataByPath = async (path: string): Promise<PostData> => {
+  const metadata = await getPostList().then((postList) =>
+    postList.find((post) => post.path === path)
+  );
+
+  if (!metadata) {
+    throw new Error(`${path}에 해당하는 포스트를 찾을 수 없음.`);
+  }
+
+  const content = await fs.promises.readFile(
+    `${process.cwd()}/src/data/posts/${path}.md`,
+    "utf-8"
+  );
+
+  return {
+    ...metadata,
+    content,
+  };
 };
