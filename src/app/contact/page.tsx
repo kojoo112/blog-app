@@ -2,9 +2,15 @@ import React from "react";
 import Link from "next/link";
 import { FaGithub, FaYoutube } from "react-icons/fa";
 import ContactForm from "@/components/ContactForm";
+import { Metadata } from "next";
 
 const HEADING_CLASS = "text-2xl font-bold";
 const ICON_CLASS = "text-5xl transition-all hover:text-yellow-500";
+
+export const metadata: Metadata = {
+  title: "Contact Me",
+  description: "고졍에게 메일 보내기",
+};
 
 const ContactPage = () => {
   return (

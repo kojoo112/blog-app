@@ -7,8 +7,11 @@ import Header from "@/components/Header";
 const sans = Open_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "고졍의 deVLog",
+  title: { default: "고졍의 deVLog", template: "고졍의 deVLog | %s" },
   description: "고졍의 블로그 입니다.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

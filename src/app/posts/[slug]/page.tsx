@@ -4,9 +4,20 @@ import MarkdownViewer from "@/components/MarkdownViewer";
 import Image from "next/image";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import AdjacentPostCard from "@/components/AdjacentPostCard";
+import { Metadata } from "next";
 
 type Props = {
   params: { slug: string };
+};
+
+export const generateMetadata = async ({
+  params: { slug },
+}: Props): Promise<Metadata> => {
+  const { title, description } = await getPostDataByPath(slug);
+  return {
+    title,
+    description,
+  };
 };
 
 const PostPage = async ({ params: { slug } }: Props) => {
