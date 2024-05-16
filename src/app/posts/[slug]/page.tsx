@@ -1,5 +1,5 @@
 import React from "react";
-import { getPostDataByPath, getPostList } from "@/service/post";
+import { getFeaturedPostList, getPostDataByPath } from "@/service/post";
 import MarkdownViewer from "@/components/MarkdownViewer";
 import Image from "next/image";
 import { AiTwotoneCalendar } from "react-icons/ai";
@@ -57,5 +57,12 @@ const PostPage = async ({ params: { slug } }: Props) => {
     </article>
   );
 };
+
+export async function generateStaticParams() {
+  const postList = await getFeaturedPostList();
+  return postList.map((post) => ({
+    slug: post.path,
+  }));
+}
 
 export default PostPage;

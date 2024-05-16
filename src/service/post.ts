@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import { cache } from "react";
 
 export type Post = {
   title: string;
@@ -15,12 +16,12 @@ export type PostData = Post & {
   next: Post | null;
 };
 
-export const getPostList = async (): Promise<Post[]> => {
+export const getPostList = cache(async (): Promise<Post[]> => {
   return fs.promises
     .readFile(`${process.cwd()}/src/data/posts.json`, "utf-8")
     .then<Post[]>(JSON.parse)
     .then((postList) => postList.sort((a, b) => b.date.localeCompare(a.date)));
-};
+});
 
 export const getFeaturedPostList = async (): Promise<Post[]> => {
   return getPostList().then((postList) =>
